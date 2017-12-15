@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class CountableProduct extends Product implements Countable{
   private int amount;
-    public CountableProduct(String name, BigDecimal price, int amount) {
+    public CountableProduct(String name, double price, int amount) {
         super(name, price);
         this.amount=amount;
     }

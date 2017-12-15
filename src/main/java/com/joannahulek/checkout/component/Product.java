@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class Product {
     private String name;
-    private BigDecimal price;
+    private double price;
 
-    public Product(String name, BigDecimal price) {
+    public Product(String name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -15,7 +15,7 @@ public class Product {
         return name;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 }
