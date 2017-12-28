@@ -6,7 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 
 public class BasketControllerTest {
@@ -29,6 +32,7 @@ public class BasketControllerTest {
 
     @Test
     public void closeBasket() {
+        Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(Collections.emptyList()));
         String existingBasketID = "123";
         BasketController basketController = new BasketController(basketRepository);
         Basket createdBasket = basketController.closeBasket(existingBasketID);

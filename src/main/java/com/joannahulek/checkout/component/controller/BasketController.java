@@ -27,8 +27,9 @@ public class BasketController {
 
     @DeleteMapping("/basket/{id}")
     public Basket closeBasket(@PathVariable("id") String id) {
-
-        return null;
+        Basket closedBasket = basketRepository.getBasket(id);
+        closedBasket.closeBasket();
+        return closedBasket;
     }
 
 }
