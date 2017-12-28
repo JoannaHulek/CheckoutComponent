@@ -16,7 +16,6 @@ public class BasketRepositoryTest {
     private EntityManager entityManager;
     private BasketRepository basketRepository;
 
-
     @Before
     public void setup() {
         entityManager = mock(EntityManager.class);
