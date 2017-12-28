@@ -1,6 +1,7 @@
 package com.joannahulek.checkout.component.controller;
 
 import com.joannahulek.checkout.component.Basket;
+import com.joannahulek.checkout.component.Summary;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +27,9 @@ public class BasketController {
     }
 
     @DeleteMapping("/basket/{id}")
-    public Basket closeBasket(@PathVariable("id") String id) {
+    public Summary closeBasket(@PathVariable("id") String id) {
         Basket closedBasket = basketRepository.getBasket(id);
-        closedBasket.closeBasket();
-        return closedBasket;
+        Summary basketSummary = closedBasket.closeBasket();
+        return basketSummary;
     }
-
 }

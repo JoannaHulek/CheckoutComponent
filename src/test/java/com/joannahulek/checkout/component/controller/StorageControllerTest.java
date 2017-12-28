@@ -5,6 +5,7 @@ import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class StorageControllerTest {
 
     private List<CountableProduct> products() {
         List<CountableProduct> sampleProducts = new ArrayList<CountableProduct>();
-        sampleProducts.add(new CountableProduct("patato", 2.2, 3));
+        sampleProducts.add(new CountableProduct("patato", new BigDecimal(2.2), 3));
         return sampleProducts;
     }
 }
