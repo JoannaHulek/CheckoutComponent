@@ -10,6 +10,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 public class StorageControllerInterationTest extends IntegrationTestBase {
+
     @Test
     public void shouldGetStorage(){
         List<CountableProduct> storage = template.getForObject(base+"/storage",List.class);
