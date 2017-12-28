@@ -1,12 +1,19 @@
 package com.joannahulek.checkout.component;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
+@Entity
+@Table(name = "basket")
 public class Basket {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
+    @Transient
     private List<CountableProduct> products;
-
     private boolean active;
 
     public Basket() {
@@ -17,8 +24,9 @@ public class Basket {
         this.active = true;
     }
 
+
     public List<CountableProduct> getProducts() {
-        return products;
+        return products != null ? products : Collections.emptyList();
     }
 
     public boolean isActive() {
@@ -38,4 +46,7 @@ public class Basket {
         return basketSummary;
     }
 
+    public String getId() {
+        return id;
+    }
 }

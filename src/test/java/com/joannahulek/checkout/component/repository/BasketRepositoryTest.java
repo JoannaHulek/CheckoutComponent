@@ -3,8 +3,9 @@ package com.joannahulek.checkout.component.repository;
 import com.joannahulek.checkout.component.Basket;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.util.Map;
+import javax.persistence.EntityManager;
 
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertNotNull;
@@ -12,34 +13,30 @@ import static org.mockito.Mockito.*;
 
 public class BasketRepositoryTest {
 
-    private IdRepository idRepository;
-    private Map<String, Basket> sampleBaskets;
+    private EntityManager entityManager;
+    private BasketRepository basketRepository;
+
 
     @Before
     public void setup() {
-        idRepository = mock(IdRepository.class);
-        sampleBaskets = mock(Map.class);
+        entityManager = mock(EntityManager.class);
+        basketRepository = new BasketRepository(entityManager);
 
     }
 
     @Test
     public void returnsBasket() {
-        Basket expectedBasket = new Basket(emptyList());
-        when(sampleBaskets.get(eq("123"))).thenReturn(expectedBasket);
-
-        BasketRepository basketRepository = new BasketRepository(sampleBaskets, idRepository);
         String existingId = "123";
+        Mockito.when(entityManager.find(eq(Basket.class), eq(existingId))).thenReturn(new Basket());
         Basket existingBasket = basketRepository.getBasket(existingId);
         assertNotNull(existingBasket);
     }
 
     @Test
     public void addBasket() {
-        when(idRepository.createId()).thenReturn("123");
         Basket expectedBasket = new Basket(emptyList());
-        BasketRepository basketRepository = new BasketRepository(sampleBaskets, idRepository);
-        basketRepository.addBasket(expectedBasket);
-        verify(sampleBaskets).put("123", expectedBasket);
+        basketRepository.createBasket(expectedBasket);
+        verify(entityManager).persist(expectedBasket);
     }
 
 }

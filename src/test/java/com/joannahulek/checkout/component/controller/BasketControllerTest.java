@@ -35,7 +35,7 @@ public class BasketControllerTest {
 
         Basket createdBasket = basketController.createBasket();
         assertNotNull(createdBasket);
-        Mockito.verify(basketRepository).addBasket(createdBasket);
+        Mockito.verify(basketRepository).createBasket(createdBasket);
     }
 
     @Test

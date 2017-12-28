@@ -7,3 +7,5 @@ I will use junit for unit tests, and spring for integration and acceptance tests
 CountableProduct - I want to have some realistic product representation in my basket, not map.
 
 StorageController - to get inventory
+
+H2 Database is based on this example http://mycuteblog.com/h2-database-example-hibernate-spring-boot/
