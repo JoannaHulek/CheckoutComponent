@@ -9,6 +9,9 @@ public class Basket {
 
     private boolean active;
 
+    public Basket() {
+    }
+
     public Basket(List<CountableProduct> products) {
         this.products = products;
         this.active = true;
