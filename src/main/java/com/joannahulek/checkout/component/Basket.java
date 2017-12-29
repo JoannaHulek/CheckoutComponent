@@ -13,7 +13,7 @@ public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
-    @Transient
+    @OneToMany
     private List<CountableProduct> products;
     private boolean active;
 

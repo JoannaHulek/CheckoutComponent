@@ -26,18 +26,22 @@ public class BasketController {
         return basket;
     }
 
+    @Transactional
     @DeleteMapping("/basket/{id}")
     public Summary closeBasket(@PathVariable("id") String id) {
         Basket closedBasket = basketRepository.getBasket(id);
         Summary basketSummary = closedBasket.closeBasket();
+        basketRepository.createBasket(closedBasket);
         return basketSummary;
     }
 
+    @Transactional
     @PostMapping("/basket/{id}")
     public Basket addToBasket(@PathVariable("id") String id,
                               @RequestBody CountableProduct product) {
         Basket actualBasket = basketRepository.getBasket(id);
         actualBasket.addProduct(product);
+        basketRepository.createBasket(actualBasket);
         return actualBasket;
     }
 }

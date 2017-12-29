@@ -37,5 +37,4 @@ public class BasketRepositoryTest {
         basketRepository.createBasket(expectedBasket);
         verify(entityManager).persist(expectedBasket);
     }
-
 }
