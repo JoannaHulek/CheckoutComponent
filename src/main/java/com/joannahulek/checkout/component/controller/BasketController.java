@@ -1,9 +1,8 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.Basket;
-import com.joannahulek.checkout.component.CountableProduct;
-import com.joannahulek.checkout.component.Summary;
+import com.joannahulek.checkout.component.*;
 import com.joannahulek.checkout.component.repository.BasketRepository;
+import com.joannahulek.checkout.component.repository.ProductRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -13,9 +12,11 @@ import java.util.ArrayList;
 public class BasketController {
 
     private final BasketRepository basketRepository;
+    private final ProductRepository productRepository;
 
-    public BasketController(BasketRepository basketRepository) {
+    public BasketController(BasketRepository basketRepository, ProductRepository productRepository) {
         this.basketRepository = basketRepository;
+        this.productRepository = productRepository;
     }
 
     @Transactional
@@ -24,6 +25,11 @@ public class BasketController {
         Basket basket = new Basket(new ArrayList<>());
         basketRepository.createBasket(basket);
         return basket;
+    }
+
+    @GetMapping("/basket/{id}")
+    public Basket getBasket(@PathVariable("id") String id) {
+        return basketRepository.getBasket(id);
     }
 
     @Transactional
@@ -38,9 +44,15 @@ public class BasketController {
     @Transactional
     @PostMapping("/basket/{id}")
     public Basket addToBasket(@PathVariable("id") String id,
-                              @RequestBody CountableProduct product) {
+                              @RequestBody CountableItem item) {
+        String productName = item.getName();
+        int amount = item.count();
+        Product product = productRepository.findProduct(productName);
+        CountableProduct countableProduct = new CountableProduct(product, amount);
         Basket actualBasket = basketRepository.getBasket(id);
-        actualBasket.addProduct(product);
+        actualBasket.addProduct(countableProduct);
+        //TODO: save it in proper place ProductRepository or ContableProductRepository
+        basketRepository.saveCProduct(countableProduct);
         basketRepository.createBasket(actualBasket);
         return actualBasket;
     }

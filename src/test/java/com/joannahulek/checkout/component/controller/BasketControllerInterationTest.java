@@ -2,6 +2,7 @@ package com.joannahulek.checkout.component.controller;
 
 import com.joannahulek.checkout.component.Basket;
 import com.joannahulek.checkout.component.CountableProduct;
+import com.joannahulek.checkout.component.Product;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +37,14 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
     }
 
     @Test
+    @Transactional
     public void shouldAddToBasket() {
         Basket basket = template.postForObject(base + "/basket", null, Basket.class);
         String id = basket.getId();
-        CountableProduct product = new CountableProduct("Milk", new BigDecimal("2.3"), 1);
+        CountableProduct product = new CountableProduct(new Product("Milk", new BigDecimal("2.3")), 1);
 
         Basket actualBasket = template.postForObject(base + "/basket/" + id, product, Basket.class);
-        Basket actualDbBasket = basketRepository.getBasket(id);
+        Basket actualDbBasket = template.getForObject(base + "/basket/" + id, Basket.class);
         List<CountableProduct> actualDbProducts = actualDbBasket.getProducts();
         List<CountableProduct> actualProducts = actualBasket.getProducts();
         List<CountableProduct> expectedProducts = new ArrayList<CountableProduct>();

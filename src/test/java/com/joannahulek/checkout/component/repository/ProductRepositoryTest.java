@@ -25,6 +25,12 @@ public class ProductRepositoryTest {
     public void saveProduct() {
         Product expectedProduct = new Product("Tomato", new BigDecimal("4.2"));
         productRepository.saveProduct(expectedProduct);
-        verify(entityManager).persist(expectedProduct);
+        verify(entityManager).merge(expectedProduct);
+    }
+
+    @Test
+    public void findProduct() {
+        productRepository.findProduct("Test");
+        verify(entityManager).find(Product.class, "Test");
     }
 }

@@ -1,6 +1,7 @@
 package com.joannahulek.checkout.component.controller;
 
 import com.joannahulek.checkout.component.CountableProduct;
+import com.joannahulek.checkout.component.Product;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class StorageControllerTest {
 
     private List<CountableProduct> products() {
         List<CountableProduct> sampleProducts = new ArrayList<CountableProduct>();
-        sampleProducts.add(new CountableProduct("Potato", new BigDecimal("2.2"), 3));
+        sampleProducts.add(new CountableProduct(new Product("Potato", new BigDecimal("2.2")), 3));
         return sampleProducts;
     }
 }

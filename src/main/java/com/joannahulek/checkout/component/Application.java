@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @SpringBootApplication
@@ -29,14 +30,12 @@ public class Application {
     }
 
     @Bean
+    @Transactional
     InitializingBean sendDatabase() {
         return () -> {
             productRepository.saveProduct(new Product("Milk", new BigDecimal("2.3")));
             productRepository.saveProduct(new Product("Apple", new BigDecimal("2.9")));
             productRepository.saveProduct(new Product("Banana", new BigDecimal("3.2")));
-            productRepository.saveProduct(new Product("Apple", new BigDecimal("2.8")));
-            productRepository.saveProduct(new Product("Banana", new BigDecimal("3.4")));
-            productRepository.saveProduct(new Product("Orange", new BigDecimal("3.8")));
             productRepository.saveProduct(new Product("Potato", new BigDecimal("2.2")));
             productRepository.saveProduct(new Product("Tomato", new BigDecimal("4.2")));
         };

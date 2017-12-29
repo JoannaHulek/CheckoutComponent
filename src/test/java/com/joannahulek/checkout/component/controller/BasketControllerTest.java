@@ -1,9 +1,8 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.Basket;
-import com.joannahulek.checkout.component.CountableProduct;
-import com.joannahulek.checkout.component.Summary;
+import com.joannahulek.checkout.component.*;
 import com.joannahulek.checkout.component.repository.BasketRepository;
+import com.joannahulek.checkout.component.repository.ProductRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +20,14 @@ import static org.mockito.Mockito.mock;
 public class BasketControllerTest {
 
     private BasketRepository basketRepository;
+    private ProductRepository productRepository;
     private BasketController basketController;
 
     @Before
     public void setup() {
         basketRepository = mock(BasketRepository.class);
-        basketController = new BasketController(basketRepository);
+        productRepository = mock(ProductRepository.class);
+        basketController = new BasketController(basketRepository, productRepository);
     }
 
 
@@ -48,8 +49,8 @@ public class BasketControllerTest {
     @Test
     public void summarizeBasketPrice() {
         List<CountableProduct> productsList = new ArrayList<CountableProduct>();
-        productsList.add(new CountableProduct("Apple", new BigDecimal("2.9"), 3));
-        productsList.add(new CountableProduct("Banana", new BigDecimal("3.2"), 2));
+        productsList.add(new CountableProduct(new Product("Apple", new BigDecimal("2.9")), 3));
+        productsList.add(new CountableProduct(new Product("Banana", new BigDecimal("3.2")), 2));
         Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(productsList));
         BigDecimal actualPrice = basketController.closeBasket("123").getTotalPrice();
         Assert.assertEquals(new BigDecimal("15.1"), actualPrice);
@@ -58,8 +59,8 @@ public class BasketControllerTest {
     @Test
     public void summarizeBasketAmount() {
         List<CountableProduct> productsList = new ArrayList<CountableProduct>();
-        productsList.add(new CountableProduct("Apple", new BigDecimal("2.8"), 5));
-        productsList.add(new CountableProduct("Banana", new BigDecimal("3.4"), 1));
+        productsList.add(new CountableProduct(new Product("Apple", new BigDecimal("2.8")), 5));
+        productsList.add(new CountableProduct(new Product("Banana", new BigDecimal("3.4")), 1));
         Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(productsList));
         int actualAmount = basketController.closeBasket("123").getNumberOfItems();
         Assert.assertEquals(6, actualAmount);
@@ -68,9 +69,11 @@ public class BasketControllerTest {
     @Test
     public void addToBasket() {
         Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(new ArrayList<CountableProduct>()));
+        Mockito.when(productRepository.findProduct("Orange")).thenReturn(new Product("Orange", new BigDecimal("3.8")));
         String basketId = "123";
-        CountableProduct product = new CountableProduct("Orange", new BigDecimal("3.8"), 1);
-        Basket actualBasket = basketController.addToBasket(basketId, product);
+        CountableItem item = new CountableItem("Orange", 1);
+        CountableProduct product = new CountableProduct(new Product("Orange", new BigDecimal("3.8")), 1);
+        Basket actualBasket = basketController.addToBasket(basketId, item);
         Assert.assertEquals(new Basket(Collections.singletonList(product)), actualBasket);
     }
 }

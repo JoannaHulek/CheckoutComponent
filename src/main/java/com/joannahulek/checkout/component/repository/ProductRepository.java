@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 @Repository
 public class ProductRepository {
@@ -16,7 +17,12 @@ public class ProductRepository {
         this.entityManager = entityManager;
     }
 
+    @Transactional
     public void saveProduct(Product product) {
-        entityManager.persist(product);
+        entityManager.merge(product);
+    }
+
+    public Product findProduct(String name) {
+        return entityManager.find(Product.class, name);
     }
 }
