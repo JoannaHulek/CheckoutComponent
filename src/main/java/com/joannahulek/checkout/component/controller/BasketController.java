@@ -1,12 +1,10 @@
 package com.joannahulek.checkout.component.controller;
 
 import com.joannahulek.checkout.component.Basket;
+import com.joannahulek.checkout.component.CountableProduct;
 import com.joannahulek.checkout.component.Summary;
 import com.joannahulek.checkout.component.repository.BasketRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -33,5 +31,13 @@ public class BasketController {
         Basket closedBasket = basketRepository.getBasket(id);
         Summary basketSummary = closedBasket.closeBasket();
         return basketSummary;
+    }
+
+    @PostMapping("/basket/{id}")
+    public Basket addToBasket(@PathVariable("id") String id,
+                              @RequestBody CountableProduct product) {
+        Basket actualBasket = basketRepository.getBasket(id);
+        actualBasket.addProduct(product);
+        return actualBasket;
     }
 }

@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "basket")
+@Table(name = "baskets")
 public class Basket {
 
     @Id
@@ -48,5 +49,25 @@ public class Basket {
 
     public String getId() {
         return id;
+    }
+
+    public void addProduct(CountableProduct product) {
+        List<CountableProduct> productsList = getProducts();
+        productsList.add(product);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Basket basket = (Basket) o;
+        return active == basket.active &&
+                Objects.equals(products, basket.products);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(products, active);
     }
 }

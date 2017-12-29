@@ -32,7 +32,6 @@ public class BasketControllerTest {
 
     @Test
     public void createBasket() {
-
         Basket createdBasket = basketController.createBasket();
         assertNotNull(createdBasket);
         Mockito.verify(basketRepository).createBasket(createdBasket);
@@ -66,5 +65,12 @@ public class BasketControllerTest {
         Assert.assertEquals(6, actualAmount);
     }
 
-
+    @Test
+    public void addToBasket() {
+        Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(new ArrayList<CountableProduct>()));
+        String basketId = "123";
+        CountableProduct product = new CountableProduct("Orange", new BigDecimal("3.8"), 1);
+        Basket actualBasket = basketController.addToBasket(basketId, product);
+        Assert.assertEquals(new Basket(Collections.singletonList(product)), actualBasket);
+    }
 }
