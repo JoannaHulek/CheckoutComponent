@@ -10,13 +10,17 @@ public class CountableItem implements Countable {
     public CountableItem() {
     }
 
-    public CountableItem(String name, int amount) {
+    public CountableItem(String name, int count) {
         this.name = name;
-        this.amount = amount;
+        this.amount = count;
     }
 
     @Override
     public int count() {
+        return amount;
+    }
+
+    public int getAmount() {
         return amount;
     }
 

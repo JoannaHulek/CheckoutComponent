@@ -39,8 +39,16 @@ public class CountableProduct implements Countable {
         return product.getPrice();
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     @Override
