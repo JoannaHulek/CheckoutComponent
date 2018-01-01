@@ -51,8 +51,7 @@ public class BasketController {
         CountableProduct countableProduct = new CountableProduct(product, amount);
         Basket actualBasket = basketRepository.getBasket(id);
         actualBasket.addProduct(countableProduct);
-        //TODO: save it in proper place ProductRepository or ContableProductRepository
-        basketRepository.saveCProduct(countableProduct);
+        productRepository.saveCountableProduct(countableProduct);
         basketRepository.createBasket(actualBasket);
         return actualBasket;
     }

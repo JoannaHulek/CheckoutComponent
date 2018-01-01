@@ -25,7 +25,6 @@ public class Basket {
         this.active = true;
     }
 
-
     public List<CountableProduct> getProducts() {
         return products != null ? products : Collections.emptyList();
     }
@@ -67,7 +66,6 @@ public class Basket {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(products, active);
     }
 }

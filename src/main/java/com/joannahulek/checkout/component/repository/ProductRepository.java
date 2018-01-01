@@ -1,5 +1,6 @@
 package com.joannahulek.checkout.component.repository;
 
+import com.joannahulek.checkout.component.CountableProduct;
 import com.joannahulek.checkout.component.Product;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +25,9 @@ public class ProductRepository {
 
     public Product findProduct(String name) {
         return entityManager.find(Product.class, name);
+    }
+
+    public void saveCountableProduct(CountableProduct countableProduct) {
+        entityManager.persist(countableProduct);
     }
 }

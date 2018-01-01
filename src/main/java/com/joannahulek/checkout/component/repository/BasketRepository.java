@@ -1,7 +1,6 @@
 package com.joannahulek.checkout.component.repository;
 
 import com.joannahulek.checkout.component.Basket;
-import com.joannahulek.checkout.component.CountableProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,9 +25,5 @@ public class BasketRepository {
 
     public void createBasket(Basket createdBasket) {
         entityManager.persist(createdBasket);
-    }
-
-    public void saveCProduct(CountableProduct cp0) {
-        entityManager.persist(cp0);
     }
 }

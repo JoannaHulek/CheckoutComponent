@@ -20,7 +20,7 @@ public class StorageController {
     @GetMapping("/storage")
     public List<CountableProduct> getStorage() {
         List<CountableProduct> storage = new ArrayList<CountableProduct>();
-        storage=storeRepository.getStorage();
+        storage = storeRepository.getStorage();
         return storage;
     }
 }

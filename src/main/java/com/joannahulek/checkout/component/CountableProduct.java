@@ -13,11 +13,10 @@ public class CountableProduct implements Countable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private int amount;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Product product;
 
     public CountableProduct() {
-
     }
 
     public CountableProduct(Product product, int amount) {
@@ -55,7 +54,6 @@ public class CountableProduct implements Countable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(amount, product);
     }
 }
