@@ -14,7 +14,7 @@ public class ProductRepository {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    public ProductRepository(EntityManager entityManager) {
+    ProductRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 

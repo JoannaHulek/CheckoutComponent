@@ -26,7 +26,7 @@ public class CountableProduct implements Countable {
 
     @Override
     public int count() {
-        return amount;
+        return getAmount();
     }
 
     @Transient

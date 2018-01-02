@@ -17,7 +17,7 @@ public class CountableItem implements Countable {
 
     @Override
     public int count() {
-        return amount;
+        return getAmount();
     }
 
     public int getAmount() {

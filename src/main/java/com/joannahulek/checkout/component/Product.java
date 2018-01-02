@@ -36,8 +36,7 @@ public class Product {
 
         Product product = (Product) o;
 
-        if (name != null ? !name.equals(product.name) : product.name != null) return false;
-        return price != null ? price.compareTo(product.price) == 0 : product.price == null;
+        return (name != null ? name.equals(product.name) : product.name == null) && (price != null ? price.compareTo(product.price) == 0 : product.price == null);
     }
 
     @Override

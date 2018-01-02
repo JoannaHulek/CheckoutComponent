@@ -1,12 +1,10 @@
 package com.joannahulek.checkout.component;
 
 import com.joannahulek.checkout.component.repository.ProductRepository;
-import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 import javax.transaction.Transactional;
@@ -20,14 +18,7 @@ public class Application {
     }
 
     @Autowired
-    ProductRepository productRepository;
-
-    @Bean
-    ServletRegistrationBean h2servletRegistration() {
-        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-        registrationBean.addUrlMappings("/console/*");
-        return registrationBean;
-    }
+    private ProductRepository productRepository;
 
     @Bean
     @Transactional

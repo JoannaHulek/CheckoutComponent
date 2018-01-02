@@ -11,10 +11,10 @@ public class IntegrationTestBase {
     @LocalServerPort
     private int port;
 
-    protected String base;
+    String base;
 
     @Autowired
-    protected TestRestTemplate template;
+    TestRestTemplate template;
 
     @Before
     public void setUp() {

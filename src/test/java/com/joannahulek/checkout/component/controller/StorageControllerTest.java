@@ -27,7 +27,7 @@ public class StorageControllerTest {
     }
 
     private List<CountableProduct> products() {
-        List<CountableProduct> sampleProducts = new ArrayList<CountableProduct>();
+        List<CountableProduct> sampleProducts = new ArrayList<>();
         sampleProducts.add(new CountableProduct(new Product("Potato", new BigDecimal("2.2")), 3));
         return sampleProducts;
     }

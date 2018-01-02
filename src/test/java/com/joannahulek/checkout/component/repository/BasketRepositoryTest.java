@@ -34,7 +34,7 @@ public class BasketRepositoryTest {
     @Test
     public void addBasket() {
         Basket expectedBasket = new Basket(emptyList());
-        basketRepository.createBasket(expectedBasket);
+        basketRepository.saveBasket(expectedBasket);
         verify(entityManager).persist(expectedBasket);
     }
 }

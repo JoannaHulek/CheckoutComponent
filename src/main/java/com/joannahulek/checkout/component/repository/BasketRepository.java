@@ -14,16 +14,15 @@ public class BasketRepository {
     private final EntityManager entityManager;
 
     @Autowired
-    public BasketRepository(EntityManager entityManager) {
+    BasketRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
 
     public Basket getBasket(String id) {
         return entityManager.find(Basket.class, id);
     }
 
-    public void createBasket(Basket createdBasket) {
+    public void saveBasket(Basket createdBasket) {
         entityManager.persist(createdBasket);
     }
 }

@@ -14,16 +14,16 @@ public class BasketController {
     private final BasketRepository basketRepository;
     private final ProductRepository productRepository;
 
-    public BasketController(BasketRepository basketRepository, ProductRepository productRepository) {
+    BasketController(BasketRepository basketRepository, ProductRepository productRepository) {
         this.basketRepository = basketRepository;
         this.productRepository = productRepository;
     }
 
     @Transactional
     @PostMapping("/basket")
-    public Basket createBasket() {
+    public Basket saveBasket() {
         Basket basket = new Basket(new ArrayList<>());
-        basketRepository.createBasket(basket);
+        basketRepository.saveBasket(basket);
         return basket;
     }
 
@@ -37,7 +37,7 @@ public class BasketController {
     public Summary closeBasket(@PathVariable("id") String id) {
         Basket closedBasket = basketRepository.getBasket(id);
         Summary basketSummary = closedBasket.closeBasket();
-        basketRepository.createBasket(closedBasket);
+        basketRepository.saveBasket(closedBasket);
         return basketSummary;
     }
 
@@ -52,7 +52,7 @@ public class BasketController {
         Basket actualBasket = basketRepository.getBasket(id);
         actualBasket.addProduct(countableProduct);
         productRepository.saveCountableProduct(countableProduct);
-        basketRepository.createBasket(actualBasket);
+        basketRepository.saveBasket(actualBasket);
         return actualBasket;
     }
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class BasketControllerInterationTest extends IntegrationTestBase {
 
-
     @Test
     public void shouldCreateBasket() {
         Basket basket = template.postForObject(base + "/basket", null, Basket.class);

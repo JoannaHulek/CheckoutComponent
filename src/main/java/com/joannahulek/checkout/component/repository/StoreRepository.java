@@ -8,10 +8,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Repository
 public class StoreRepository {
 
-    private final static List<CountableProduct> sampleStrage = new ArrayList<CountableProduct>();
+    private final static List<CountableProduct> sampleStrage = new ArrayList<>();
 
     static {
         sampleStrage.add(new CountableProduct(new Product("Apple", new BigDecimal("2.9")), 3));
@@ -20,5 +22,11 @@ public class StoreRepository {
 
     public List<CountableProduct> getStorage() {
         return sampleStrage;
+    }
+
+    public List<String> getProductsList() {
+        return sampleStrage.stream()
+                .map(CountableProduct::getName)
+                .collect(toList());
     }
 }

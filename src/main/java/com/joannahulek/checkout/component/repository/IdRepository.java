@@ -7,7 +7,7 @@ import java.util.UUID;
 @Repository
 public class IdRepository {
 
-    public String createId() {
+    private String createId() {
         return UUID.randomUUID().toString();
     }
 }

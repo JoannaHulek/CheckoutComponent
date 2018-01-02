@@ -37,13 +37,12 @@ public class Basket {
         active = false;
         BigDecimal totalPrice = getProducts().stream()
                 .map(countableProduct -> countableProduct.getPrice().multiply(BigDecimal.valueOf(countableProduct.count())))
-                .reduce(BigDecimal.ZERO, (bigDecimal, bigDecimal2) -> bigDecimal.add(bigDecimal2));
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         int numberOfItems = getProducts().stream()
-                .map(countableProduct -> countableProduct.count())
+                .map(CountableProduct::count)
                 .reduce(0, (integer, integer2) -> integer + integer2);
-        Summary basketSummary = new Summary(totalPrice, numberOfItems);
 
-        return basketSummary;
+        return new Summary(totalPrice, numberOfItems);
     }
 
     public String getId() {
