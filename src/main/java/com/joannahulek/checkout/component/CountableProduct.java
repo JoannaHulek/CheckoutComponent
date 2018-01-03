@@ -64,4 +64,13 @@ public class CountableProduct implements Countable {
     public int hashCode() {
         return Objects.hash(amount, product);
     }
+
+    @Override
+    public String toString() {
+        return "CountableProduct{" +
+                "id='" + id + '\'' +
+                ", amount=" + amount +
+                ", product=" + product +
+                '}';
+    }
 }

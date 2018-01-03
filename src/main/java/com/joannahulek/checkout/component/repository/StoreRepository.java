@@ -1,32 +1,31 @@
 package com.joannahulek.checkout.component.repository;
 
-import com.joannahulek.checkout.component.CountableProduct;
-import com.joannahulek.checkout.component.Product;
+import com.joannahulek.checkout.component.StorageCountableProduct;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Repository
 public class StoreRepository {
 
-    private final static List<CountableProduct> sampleStrage = new ArrayList<>();
+    @PersistenceContext
+    private final EntityManager entityManager;
 
-    static {
-        sampleStrage.add(new CountableProduct(new Product("Apple", new BigDecimal("2.9")), 3));
-        sampleStrage.add(new CountableProduct(new Product("Banana", new BigDecimal("3.2")), 2));
+    public StoreRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
-    public List<CountableProduct> getStorage() {
-        return sampleStrage;
+    @Transactional
+    public void saveStorage(StorageCountableProduct storageCountableProduct) {
+        entityManager.merge(storageCountableProduct);
     }
 
-    public List<String> getProductsList() {
-        return sampleStrage.stream()
-                .map(CountableProduct::getName)
-                .collect(toList());
+    public List<StorageCountableProduct> getStorage() {
+        CriteriaQuery<StorageCountableProduct> query = entityManager.getCriteriaBuilder().createQuery(StorageCountableProduct.class);
+        return entityManager.createQuery(query.select(query.from(StorageCountableProduct.class))).getResultList();
     }
 }

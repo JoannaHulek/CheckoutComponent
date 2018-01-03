@@ -2,6 +2,7 @@ package com.joannahulek.checkout.component.controller;
 
 import com.joannahulek.checkout.component.CountableProduct;
 import com.joannahulek.checkout.component.Product;
+import com.joannahulek.checkout.component.StorageCountableProduct;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,14 +22,14 @@ public class StorageControllerTest {
         when(storeRepository.getStorage()).thenReturn(products());
 
         StorageController storageController = new StorageController(storeRepository);
-        List<CountableProduct> createdStorage = storageController.getStorage();
+        List<StorageCountableProduct> createdStorage = storageController.getStorage();
         Assert.assertNotNull(createdStorage);
         Assert.assertNotEquals(new ArrayList<CountableProduct>(), createdStorage);   //storage is not empty
     }
 
-    private List<CountableProduct> products() {
-        List<CountableProduct> sampleProducts = new ArrayList<>();
-        sampleProducts.add(new CountableProduct(new Product("Potato", new BigDecimal("2.2")), 3));
+    private List<StorageCountableProduct> products() {
+        List<StorageCountableProduct> sampleProducts = new ArrayList<>();
+        sampleProducts.add(new StorageCountableProduct(3, new Product("Potato", new BigDecimal("2.2"))));
         return sampleProducts;
     }
 }
