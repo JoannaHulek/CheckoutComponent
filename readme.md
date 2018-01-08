@@ -11,3 +11,5 @@ StorageController - to get inventory
 H2 Database is based on this example http://mycuteblog.com/h2-database-example-hibernate-spring-boot/
 
 InitializingBean - initial data in database https://stackoverflow.com/questions/38040572/spring-boot-loading-initial-data
+
+di
