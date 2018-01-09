@@ -1,4 +1,4 @@
-package com.joannahulek.checkout.component;
+package com.joannahulek.checkout.component.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

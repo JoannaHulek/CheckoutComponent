@@ -1,6 +1,6 @@
 package com.joannahulek.checkout.component.repository;
 
-import com.joannahulek.checkout.component.StorageCountableProduct;
+import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

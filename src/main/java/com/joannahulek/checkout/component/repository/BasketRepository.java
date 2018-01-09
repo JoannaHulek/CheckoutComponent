@@ -1,6 +1,6 @@
 package com.joannahulek.checkout.component.repository;
 
-import com.joannahulek.checkout.component.Basket;
+import com.joannahulek.checkout.component.model.Basket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.joannahulek.checkout.component;
+package com.joannahulek.checkout.component.model;
 
 
 import javax.persistence.*;
@@ -11,9 +11,10 @@ public class ProductInPromotion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+    @OneToOne
     private Product productInPromotion;
     private int amount;
-    private BigDecimal discountValue;
+    private BigDecimal discountValue;   // range 0-1 (%)
 
     public ProductInPromotion() {
     }
@@ -33,11 +34,12 @@ public class ProductInPromotion {
     }
 
     public BigDecimal getDiscountValue() {
-        verifyDiscount();
+        normalizeDiscount();
         return discountValue;
     }
 
-    private void verifyDiscount() {
-
+    private void normalizeDiscount() {
+        discountValue = discountValue.min(BigDecimal.ONE);
+        discountValue = discountValue.max(BigDecimal.ZERO);
     }
 }

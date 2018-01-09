@@ -1,6 +1,6 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.*;
+import com.joannahulek.checkout.component.model.*;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.ProductRepository;
 import org.junit.Assert;

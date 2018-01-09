@@ -1,5 +1,7 @@
 package com.joannahulek.checkout.component;
 
+import com.joannahulek.checkout.component.model.Product;
+import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import com.joannahulek.checkout.component.repository.ProductRepository;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.springframework.beans.factory.InitializingBean;

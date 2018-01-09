@@ -1,8 +1,8 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.CountableProduct;
-import com.joannahulek.checkout.component.Product;
-import com.joannahulek.checkout.component.StorageCountableProduct;
+import com.joannahulek.checkout.component.model.CountableProduct;
+import com.joannahulek.checkout.component.model.Product;
+import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.junit.Assert;
 import org.junit.Test;

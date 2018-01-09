@@ -1,4 +1,4 @@
-package com.joannahulek.checkout.component;
+package com.joannahulek.checkout.component.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

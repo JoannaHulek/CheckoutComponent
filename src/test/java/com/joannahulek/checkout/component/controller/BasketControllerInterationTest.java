@@ -1,9 +1,9 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.Basket;
-import com.joannahulek.checkout.component.CountableItem;
-import com.joannahulek.checkout.component.CountableProduct;
-import com.joannahulek.checkout.component.Product;
+import com.joannahulek.checkout.component.model.Basket;
+import com.joannahulek.checkout.component.model.CountableItem;
+import com.joannahulek.checkout.component.model.CountableProduct;
+import com.joannahulek.checkout.component.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

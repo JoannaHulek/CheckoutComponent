@@ -1,7 +1,7 @@
 package com.joannahulek.checkout.component.repository;
 
-import com.joannahulek.checkout.component.Product;
-import com.joannahulek.checkout.component.StorageCountableProduct;
+import com.joannahulek.checkout.component.model.Product;
+import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

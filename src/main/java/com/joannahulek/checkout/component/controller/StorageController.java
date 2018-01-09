@@ -1,6 +1,6 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.StorageCountableProduct;
+import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
