@@ -22,4 +22,11 @@ public class ProductInPromotionTest {
         actualProductInPromotion.getDiscountValue();
         Assert.assertEquals(actualProductInPromotion.getDiscountValue(), expectedProductInPromotion.getDiscountValue());
     }
+
+    @Test
+    public void equals() {
+        ProductInPromotion product1 = new ProductInPromotion(new Product("Banana", new BigDecimal("3.2")), 10, new BigDecimal("0.05"));
+        ProductInPromotion product2 = new ProductInPromotion(new Product("Banana", new BigDecimal("3.2")), 10, new BigDecimal("0.05"));
+        Assert.assertTrue(product1.equals(product2));
+    }
 }

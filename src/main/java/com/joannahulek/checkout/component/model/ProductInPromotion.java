@@ -42,4 +42,24 @@ public class ProductInPromotion {
         discountValue = discountValue.min(BigDecimal.ONE);
         discountValue = discountValue.max(BigDecimal.ZERO);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductInPromotion that = (ProductInPromotion) o;
+
+        if (amount != that.amount) return false;
+        if (!productInPromotion.equals(that.productInPromotion)) return false;
+        return discountValue.equals(that.discountValue);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = productInPromotion.hashCode();
+        result = 31 * result + amount;
+        result = 31 * result + discountValue.hashCode();
+        return result;
+    }
 }

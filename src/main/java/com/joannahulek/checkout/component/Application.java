@@ -46,6 +46,7 @@ public class Application {
             productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Tomato"), 20, new BigDecimal("0.5")));
             productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ONE));
             productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ZERO));
+            productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Banana"), 10, new BigDecimal("0.05")));
         };
     }
 }
