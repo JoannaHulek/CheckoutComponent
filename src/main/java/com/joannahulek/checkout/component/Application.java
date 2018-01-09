@@ -1,7 +1,9 @@
 package com.joannahulek.checkout.component;
 
 import com.joannahulek.checkout.component.model.Product;
+import com.joannahulek.checkout.component.model.ProductInPromotion;
 import com.joannahulek.checkout.component.model.StorageCountableProduct;
+import com.joannahulek.checkout.component.repository.ProductInPromotionRepository;
 import com.joannahulek.checkout.component.repository.ProductRepository;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,6 +25,8 @@ public class Application {
     private ProductRepository productRepository;
     @Autowired
     private StoreRepository storeRepository;
+    @Autowired
+    private ProductInPromotionRepository productInPromotionRepository;
 
     @Bean
     InitializingBean sendDatabase() {
@@ -38,6 +42,10 @@ public class Application {
             storeRepository.saveStorage(new StorageCountableProduct(8, productRepository.findProduct("Banana")));
             storeRepository.saveStorage(new StorageCountableProduct(2, productRepository.findProduct("Potato")));
             storeRepository.saveStorage(new StorageCountableProduct(7, productRepository.findProduct("Tomato")));
+
+            productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Tomato"), 20, new BigDecimal("0.5")));
+            productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ONE));
+            productInPromotionRepository.saveProductInPromotion(new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ZERO));
         };
     }
 }
