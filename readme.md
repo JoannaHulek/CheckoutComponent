@@ -12,4 +12,8 @@ H2 Database is based on this example http://mycuteblog.com/h2-database-example-h
 
 InitializingBean - initial data in database https://stackoverflow.com/questions/38040572/spring-boot-loading-initial-data
 
-di
+<--Architecture of discounts system-->
+
+
+
+criteria queries - to find ProductInPromotion with selected criteria. Based on this example - https://chlebik.wordpress.com/2014/03/12/dajcie-kawalek-sqla-zapytania-criteria-api/

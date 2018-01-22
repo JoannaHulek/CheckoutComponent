@@ -34,13 +34,11 @@ public class ProductInPromotion {
     }
 
     public BigDecimal getDiscountValue() {
-        normalizeDiscount();
-        return discountValue;
+        return normalizeDiscount();
     }
 
-    private void normalizeDiscount() {
-        discountValue = discountValue.min(BigDecimal.ONE);
-        discountValue = discountValue.max(BigDecimal.ZERO);
+    private BigDecimal normalizeDiscount() {
+        return discountValue.min(BigDecimal.ONE).max(BigDecimal.ZERO);
     }
 
     @Override
@@ -50,9 +48,7 @@ public class ProductInPromotion {
 
         ProductInPromotion that = (ProductInPromotion) o;
 
-        if (amount != that.amount) return false;
-        if (!productInPromotion.equals(that.productInPromotion)) return false;
-        return discountValue.equals(that.discountValue);
+        return amount == that.amount && productInPromotion.equals(that.productInPromotion) && discountValue.equals(that.discountValue);
     }
 
     @Override

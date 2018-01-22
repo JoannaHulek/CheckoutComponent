@@ -22,8 +22,14 @@ public class ProductInPromotionRepositoryTest {
 
     @Test
     public void saveProductInPromotion() {
-        ProductInPromotion productInPromotion = new ProductInPromotion(new Product("Tomato", new BigDecimal("4.2")), 20, new BigDecimal("0.5"));
+        ProductInPromotion productInPromotion = createSampleProductInPromotion();
         productInPromotionRepository.saveProductInPromotion(productInPromotion);
         Mockito.verify(entityManager).merge(productInPromotion);
+    }
+
+    private ProductInPromotion createSampleProductInPromotion() {
+        return new ProductInPromotion(
+                new Product("Tomato", new BigDecimal("4.2")),
+                20, new BigDecimal("0.5"));
     }
 }
