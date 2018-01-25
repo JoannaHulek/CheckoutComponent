@@ -23,18 +23,18 @@ public class DiscountRepositoryTest {
         discountRepository = new DiscountRepository(entityManager);
     }
 
-    @Test
-    public void saveDiscount() {
-        Discount discount = new Discount(createSampleDiscount());
-        discountRepository.saveDiscount(discount);
-        Mockito.verify(entityManager).merge(discount);
-    }
-
     private List<ProductInPromotion> createSampleDiscount() {
-        List<ProductInPromotion> sampleDiscount = new ArrayList<ProductInPromotion>();
+        List<ProductInPromotion> sampleDiscount = new ArrayList<>();
         sampleDiscount.add(new ProductInPromotion(
                 new Product("Tomato", new BigDecimal("4.2")),
                 20, new BigDecimal("0.5")));
         return sampleDiscount;
+    }
+
+    @Test
+    public void saveDiscount() {
+        Discount existingDiscount = new Discount(createSampleDiscount());
+        discountRepository.saveDiscount(existingDiscount);
+        Mockito.verify(entityManager).merge(existingDiscount);
     }
 }

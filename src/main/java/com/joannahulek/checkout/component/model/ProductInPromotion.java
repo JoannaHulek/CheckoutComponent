@@ -58,4 +58,9 @@ public class ProductInPromotion {
         result = 31 * result + discountValue.hashCode();
         return result;
     }
+
+    public Boolean compareToCountableProduct(ProductInPromotion productInPromotion, CountableProduct countableProduct) {
+        return productInPromotion.getProductInPromotion().equals(countableProduct.getProduct())
+                && productInPromotion.getAmount() <= countableProduct.getAmount();
+    }
 }

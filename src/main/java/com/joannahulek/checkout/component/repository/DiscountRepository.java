@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class DiscountRepository {
     }
 
     public List<Discount> getAll() {
-        return null;
+        CriteriaQuery<Discount> query = entityManager.getCriteriaBuilder().createQuery(Discount.class);
+        return entityManager.createQuery(query.select(query.from(Discount.class))).getResultList();
     }
 }
