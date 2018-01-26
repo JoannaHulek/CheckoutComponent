@@ -73,4 +73,9 @@ public class CountableProduct implements Countable {
                 ", product=" + product +
                 '}';
     }
+
+    public Boolean compareToProductInPromotion(ProductInPromotion productInPromotion) {
+        return this.getProduct().equals(productInPromotion.getProductInPromotion())
+                && this.getAmount() >= productInPromotion.getAmount();
+    }
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class ProductInPromotionTest {
 
-    private ProductInPromotion getSampleProductInPromotion() {
+    private ProductInPromotion generateSampleProductInPromotion() {
         return new ProductInPromotion(new Product("Banana", new BigDecimal("3.2")), 10, new BigDecimal("0.05"));
     }
 
@@ -29,15 +29,8 @@ public class ProductInPromotionTest {
 
     @Test
     public void equals() {
-        ProductInPromotion product1 = getSampleProductInPromotion();
-        ProductInPromotion product2 = getSampleProductInPromotion();
+        ProductInPromotion product1 = generateSampleProductInPromotion();
+        ProductInPromotion product2 = generateSampleProductInPromotion();
         Assert.assertTrue(product1.equals(product2));
-    }
-
-    @Test
-    public void compareToCountableProduct() {
-        ProductInPromotion productInPromotion = getSampleProductInPromotion();
-        CountableProduct countableProduct = new CountableProduct(new Product("Banana", new BigDecimal("3.2")), 10);
-        Assert.assertTrue(productInPromotion.compareToCountableProduct(productInPromotion, countableProduct));
     }
 }
