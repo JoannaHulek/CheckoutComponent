@@ -15,6 +15,8 @@ public class CountableProduct implements Countable {
     private int amount;
     @ManyToOne
     private Product product;
+    private transient BigDecimal discountMultiplier;
+
 
     public CountableProduct() {
     }
@@ -22,6 +24,7 @@ public class CountableProduct implements Countable {
     public CountableProduct(Product product, int amount) {
         this.product = product;
         this.amount = amount;
+        this.discountMultiplier = BigDecimal.ONE;
     }
 
     @Override
@@ -74,8 +77,17 @@ public class CountableProduct implements Countable {
                 '}';
     }
 
+
+    public BigDecimal getDiscountMultiplier() {
+        return discountMultiplier;
+    }
+
+    public void setDiscountMultiplier(BigDecimal discountMultiplier) {
+        this.discountMultiplier = discountMultiplier;
+    }
+
     public Boolean compareToProductInPromotion(ProductInPromotion productInPromotion) {
-        return this.getProduct().equals(productInPromotion.getProductInPromotion())
+        return this.getProduct().equals(productInPromotion.getProduct())
                 && this.getAmount() >= productInPromotion.getAmount();
     }
 }

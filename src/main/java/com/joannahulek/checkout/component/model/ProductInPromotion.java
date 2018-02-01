@@ -12,7 +12,7 @@ public class ProductInPromotion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     @OneToOne
-    private Product productInPromotion;
+    private Product product;
     private int amount;
     private BigDecimal discountValue;   // range 0-1 (%)
 
@@ -20,13 +20,13 @@ public class ProductInPromotion {
     }
 
     public ProductInPromotion(Product productInPromotion, int amount, BigDecimal discountValue) {
-        this.productInPromotion = productInPromotion;
+        this.product = productInPromotion;
         this.amount = amount;
         this.discountValue = discountValue;
     }
 
-    public Product getProductInPromotion() {
-        return productInPromotion;
+    public Product getProduct() {
+        return product;
     }
 
     public int getAmount() {
@@ -41,6 +41,11 @@ public class ProductInPromotion {
         return discountValue.min(BigDecimal.ONE).max(BigDecimal.ZERO);
     }
 
+    public Boolean compareToCountableProduct(CountableProduct countableProduct) {
+        return this.getProduct().equals(countableProduct.getProduct())
+                && this.getAmount() <= countableProduct.getAmount();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,12 +53,12 @@ public class ProductInPromotion {
 
         ProductInPromotion that = (ProductInPromotion) o;
 
-        return amount == that.amount && productInPromotion.equals(that.productInPromotion) && discountValue.equals(that.discountValue);
+        return amount == that.amount && product.equals(that.product) && discountValue.equals(that.discountValue);
     }
 
     @Override
     public int hashCode() {
-        int result = productInPromotion.hashCode();
+        int result = product.hashCode();
         result = 31 * result + amount;
         result = 31 * result + discountValue.hashCode();
         return result;

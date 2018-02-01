@@ -36,7 +36,9 @@ public class Basket {
     public Summary closeBasket() {
         active = false;
         BigDecimal totalPrice = getProducts().stream()
-                .map(countableProduct -> countableProduct.getPrice().multiply(BigDecimal.valueOf(countableProduct.count())))
+                .map(countableProduct -> countableProduct.getPrice()
+                        .multiply(countableProduct.getDiscountMultiplier())
+                        .multiply(BigDecimal.valueOf(countableProduct.count())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         int numberOfItems = getProducts().stream()
                 .map(CountableProduct::count)

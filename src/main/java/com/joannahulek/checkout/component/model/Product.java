@@ -12,7 +12,6 @@ public class Product {
     @Id
     private String name;
     private BigDecimal price;
-    private transient BigDecimal multiplayer = BigDecimal.ONE;
 
     public Product() {
     }
@@ -43,13 +42,5 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(name, price);
-    }
-
-    public BigDecimal getMultiplayer() {
-        return multiplayer;
-    }
-
-    public void setMultiplayer(BigDecimal multiplayer) {
-        this.multiplayer = multiplayer;
     }
 }
