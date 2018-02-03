@@ -66,9 +66,9 @@ public class DiscountCalculatorTest {
 
     @Test
     public void calculateDiscountWhenIsManyDiscounts() {
-        Basket basketWihtManyDiscounts = new Basket(Arrays.asList(createFirstCountableProduct(), createSecondCountableProduct()));
+        Basket basketWithManyDiscounts = new Basket(Arrays.asList(createFirstCountableProduct(), createSecondCountableProduct()));
         String existingID = "321";
-        when(basketRepository.getBasket(existingID)).thenReturn(basketWihtManyDiscounts);
+        when(basketRepository.getBasket(existingID)).thenReturn(basketWithManyDiscounts);
         when(discountRepository.getAll()).thenReturn(
                 Arrays.asList(
                         new Discount(
@@ -80,6 +80,24 @@ public class DiscountCalculatorTest {
         Assertions.assertThat(actualBasket.getProducts())
                 .extracting(CountableProduct::getDiscountMultiplier)
                 .containsExactly(BigDecimal.valueOf(0.5d), BigDecimal.valueOf(0.1d));
+    }
+
+    @Test
+    public void chooseBetterPromotion() {
+        Basket basketWithProductCoveredByManyPromotions = new Basket(Arrays.asList(createFirstCountableProduct()));
+        String existingID = "159";
+        when(basketRepository.getBasket(existingID)).thenReturn(basketWithProductCoveredByManyPromotions);
+        when(discountRepository.getAll()).thenReturn(
+                Arrays.asList(
+                        new Discount(
+                                Arrays.asList(createFirstProductInPromotion())),
+                        new Discount(
+                                Arrays.asList(createBetterPromotion())))
+        );
+        Basket actualBasket = discountCalculator.calculateDiscount(existingID);
+        Assertions.assertThat(actualBasket.getProducts())
+                .extracting(CountableProduct::getDiscountMultiplier)
+                .containsExactly(BigDecimal.valueOf(0.8d));
     }
 
     private CountableProduct createFirstCountableProduct() {
@@ -101,5 +119,10 @@ public class DiscountCalculatorTest {
     private ProductInPromotion createSecondProductInPromotion() {
         return new ProductInPromotion(
                 new Product("Second", new BigDecimal("6.35")), 10, new BigDecimal("0.1"));
+    }
+
+    private ProductInPromotion createBetterPromotion() {
+        return new ProductInPromotion(
+                new Product("First", new BigDecimal("4.2")), 20, new BigDecimal("0.8"));
     }
 }
