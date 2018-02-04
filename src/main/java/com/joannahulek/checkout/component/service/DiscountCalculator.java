@@ -6,11 +6,13 @@ import com.joannahulek.checkout.component.model.Discount;
 import com.joannahulek.checkout.component.model.ProductInPromotion;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.DiscountRepository;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 
+@Component
 public class DiscountCalculator {
     private final BasketRepository basketRepository;
     private final DiscountRepository discountRepository;

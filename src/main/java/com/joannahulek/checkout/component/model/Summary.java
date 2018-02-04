@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 
 public class Summary {
 
-    private final BigDecimal totalPrice;
-    private final int numberOfItems;
+    private BigDecimal totalPrice;
+    private int numberOfItems;
+
+    public Summary() {
+    }
 
     Summary(BigDecimal totalPrice, int numberOfItems) {
         this.totalPrice = totalPrice;

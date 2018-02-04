@@ -51,12 +51,8 @@ public class Application {
 
             ProductInPromotion tomato20_05 = productInPromotionRepository.saveProductInPromotion(
                     new ProductInPromotion(productRepository.findProduct("Tomato"), 20, new BigDecimal("0.5")));
-            ProductInPromotion apple1_1 = productInPromotionRepository.saveProductInPromotion(
-                    new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ONE));
             ProductInPromotion apple1_0 = productInPromotionRepository.saveProductInPromotion(
-                    new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ZERO));
-            ProductInPromotion banana10_005 = productInPromotionRepository.saveProductInPromotion(
-                    new ProductInPromotion(productRepository.findProduct("Banana"), 10, new BigDecimal("0.05")));
+                    new ProductInPromotion(productRepository.findProduct("Apple"), 1, BigDecimal.ONE));
             ProductInPromotion banana20_0 = productInPromotionRepository.saveProductInPromotion(
                     new ProductInPromotion(productRepository.findProduct("Banana"), 20, BigDecimal.ZERO));
 
