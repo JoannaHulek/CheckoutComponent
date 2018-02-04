@@ -1,9 +1,9 @@
 package com.joannahulek.checkout.component.controller;
 
+import com.joannahulek.checkout.component.ProductPrototypes;
 import com.joannahulek.checkout.component.model.Basket;
 import com.joannahulek.checkout.component.model.CountableItem;
 import com.joannahulek.checkout.component.model.CountableProduct;
-import com.joannahulek.checkout.component.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +37,8 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
     public void shouldAddToBasket() {
         Basket basket = template.postForObject(base + "/basket", null, Basket.class);
         String id = basket.getId();
-        CountableProduct product = new CountableProduct(new Product("Milk", new BigDecimal("2.3")), 1);
+        CountableProduct product = ProductPrototypes.createCountableProduct(
+                "Milk", new BigDecimal("2.3"), 1);
         CountableItem item = new CountableItem("Milk", 1);
         Basket actualBasket = template.postForObject(base + "/basket/" + id, item, Basket.class);
         Basket actualDbBasket = template.getForObject(base + "/basket/" + id, Basket.class);

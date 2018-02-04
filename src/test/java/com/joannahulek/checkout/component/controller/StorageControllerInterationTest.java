@@ -1,6 +1,5 @@
 package com.joannahulek.checkout.component.controller;
 
-import com.joannahulek.checkout.component.model.StorageCountableProduct;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +11,8 @@ import java.util.List;
 public class StorageControllerInterationTest extends IntegrationTestBase {
 
     @Test
-    public void shouldGetStorage(){
-        List<StorageCountableProduct> storage = template.getForObject(base + "/storage", List.class);
+    public void shouldGetStorage() {
+        List storage = template.getForObject(base + "/storage", List.class);
         Assert.assertNotNull(storage);
     }
 }

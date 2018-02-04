@@ -3,6 +3,7 @@ package com.joannahulek.checkout.component.controller;
 import com.joannahulek.checkout.component.model.*;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.ProductRepository;
+import com.joannahulek.checkout.component.service.DiscountCalculator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -13,10 +14,12 @@ public class BasketController {
 
     private final BasketRepository basketRepository;
     private final ProductRepository productRepository;
+    private final DiscountCalculator discountCalculator;
 
-    BasketController(BasketRepository basketRepository, ProductRepository productRepository) {
+    BasketController(BasketRepository basketRepository, ProductRepository productRepository, DiscountCalculator discountCalculator) {
         this.basketRepository = basketRepository;
         this.productRepository = productRepository;
+        this.discountCalculator = discountCalculator;
     }
 
     @Transactional
@@ -35,7 +38,7 @@ public class BasketController {
     @Transactional
     @DeleteMapping("/basket/{id}")
     public Summary closeBasket(@PathVariable("id") String id) {
-        Basket closedBasket = basketRepository.getBasket(id);
+        Basket closedBasket = discountCalculator.calculateDiscount(id);
         Summary basketSummary = closedBasket.closeBasket();
         basketRepository.saveBasket(closedBasket);
         return basketSummary;

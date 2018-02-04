@@ -1,6 +1,9 @@
 package com.joannahulek.checkout.component.service;
 
-import com.joannahulek.checkout.component.model.*;
+import com.joannahulek.checkout.component.ProductPrototypes;
+import com.joannahulek.checkout.component.model.Basket;
+import com.joannahulek.checkout.component.model.CountableProduct;
+import com.joannahulek.checkout.component.model.Discount;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.DiscountRepository;
 import org.assertj.core.api.Assertions;
@@ -9,6 +12,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -30,21 +34,27 @@ public class DiscountCalculatorTest {
 
     @Test
     public void calculateDiscountWhenNoPromotionFound() {
-        Basket expectedBasket = new Basket(Arrays.asList(createFirstCountableProduct()));
+        Basket expectedBasket = new Basket(Collections.singletonList(
+                ProductPrototypes.createCountableProduct(
+                        "First", new BigDecimal("4.2"), 20)));
         String existingId = "123";
         when(basketRepository.getBasket(existingId)).thenReturn(expectedBasket);
-        Basket actualBasket = discountCalculator.calculateDiscount(existingId);
+        Basket actualBasket;
+        actualBasket = discountCalculator.calculateDiscount(existingId);
         assertThat(actualBasket).isSameAs(expectedBasket);
     }
 
     @Test
     public void calculateDiscountWhenIsOneProductInPromotion() {
-        Basket basketWithOneDiscount = new Basket(Arrays.asList(createFirstCountableProduct()));
+        Basket basketWithOneDiscount = new Basket(Collections.singletonList(
+                ProductPrototypes.createCountableProduct(
+                        "First", new BigDecimal("4.2"), 20)));
         String existingId = "123";
         when(basketRepository.getBasket(existingId)).thenReturn(basketWithOneDiscount);
         when(discountRepository.getAll()).thenReturn(
-                Arrays.asList(new Discount(
-                        Arrays.asList(createFirstProductInPromotion()))));
+                Collections.singletonList(new Discount(
+                        Collections.singletonList(ProductPrototypes.createProductInPromotion(
+                                "First", new BigDecimal("4.2"), 20, new BigDecimal("0.5"))))));
         Basket actualBasket = discountCalculator.calculateDiscount(existingId);
         Assertions.assertThat(actualBasket.getProducts().get(0).getDiscountMultiplier())
                 .isEqualTo(BigDecimal.valueOf(0.5d));
@@ -52,12 +62,20 @@ public class DiscountCalculatorTest {
 
     @Test
     public void calculateDiscountWhenIsManyProductsInPromotionInOneDiscount() {
-        Basket basketWithManyProductsInOneDiscount = new Basket(Arrays.asList(createFirstCountableProduct(), createSecondCountableProduct()));
+        Basket basketWithManyProductsInOneDiscount = new Basket(Arrays.asList(
+                ProductPrototypes.createCountableProduct(
+                        "First", new BigDecimal("4.2"), 20),
+                ProductPrototypes.createCountableProduct(
+                        "Second", new BigDecimal("6.35"), 10)));
         String existingID = "15";
         when(basketRepository.getBasket(existingID)).thenReturn(basketWithManyProductsInOneDiscount);
         when(discountRepository.getAll()).thenReturn(
-                Arrays.asList(new Discount(
-                        Arrays.asList(createFirstProductInPromotion(), createSecondProductInPromotion()))));
+                Collections.singletonList(new Discount(
+                        Arrays.asList
+                                (ProductPrototypes.createProductInPromotion(
+                                        "First", new BigDecimal("4.2"), 20, new BigDecimal("0.5")),
+                                        ProductPrototypes.createProductInPromotion(
+                                                "Second", new BigDecimal("6.35"), 10, new BigDecimal("0.1"))))));
         Basket actualBasket = discountCalculator.calculateDiscount(existingID);
         Assertions.assertThat(actualBasket.getProducts())
                 .extracting(CountableProduct::getDiscountMultiplier)
@@ -66,16 +84,23 @@ public class DiscountCalculatorTest {
 
     @Test
     public void calculateDiscountWhenIsManyDiscounts() {
-        Basket basketWithManyDiscounts = new Basket(Arrays.asList(createFirstCountableProduct(), createSecondCountableProduct()));
+        Basket basketWithManyDiscounts = new Basket(Arrays.asList(
+                ProductPrototypes.createCountableProduct(
+                        "First", new BigDecimal("4.2"), 20),
+                ProductPrototypes.createCountableProduct(
+                        "Second", new BigDecimal("6.35"), 10)));
         String existingID = "321";
         when(basketRepository.getBasket(existingID)).thenReturn(basketWithManyDiscounts);
         when(discountRepository.getAll()).thenReturn(
                 Arrays.asList(
                         new Discount(
-                                Arrays.asList(createFirstProductInPromotion())),
+                                Collections.singletonList(
+                                        ProductPrototypes.createProductInPromotion(
+                                                "First", new BigDecimal("4.2"), 20, new BigDecimal("0.5")))),
                         new Discount(
-                                Arrays.asList(createSecondProductInPromotion())))
-        );
+                                Collections.singletonList(
+                                        ProductPrototypes.createProductInPromotion(
+                                                "Second", new BigDecimal("6.35"), 10, new BigDecimal("0.1"))))));
         Basket actualBasket = discountCalculator.calculateDiscount(existingID);
         Assertions.assertThat(actualBasket.getProducts())
                 .extracting(CountableProduct::getDiscountMultiplier)
@@ -84,45 +109,22 @@ public class DiscountCalculatorTest {
 
     @Test
     public void chooseBetterPromotion() {
-        Basket basketWithProductCoveredByManyPromotions = new Basket(Arrays.asList(createFirstCountableProduct()));
+        Basket basketWithProductCoveredByManyPromotions = new Basket(
+                Collections.singletonList(ProductPrototypes.createCountableProduct(
+                        "First", new BigDecimal("4.2"), 20)));
         String existingID = "159";
         when(basketRepository.getBasket(existingID)).thenReturn(basketWithProductCoveredByManyPromotions);
         when(discountRepository.getAll()).thenReturn(
                 Arrays.asList(
                         new Discount(
-                                Arrays.asList(createFirstProductInPromotion())),
+                                Collections.singletonList(ProductPrototypes.createProductInPromotion(
+                                        "First", new BigDecimal("4.2"), 20, new BigDecimal("0.5")))),
                         new Discount(
-                                Arrays.asList(createBetterPromotion())))
-        );
+                                Collections.singletonList(ProductPrototypes.createProductInPromotion(
+                                        "First", new BigDecimal("4.2"), 20, new BigDecimal("0.8"))))));
         Basket actualBasket = discountCalculator.calculateDiscount(existingID);
         Assertions.assertThat(actualBasket.getProducts())
                 .extracting(CountableProduct::getDiscountMultiplier)
                 .containsExactly(BigDecimal.valueOf(0.8d));
-    }
-
-    private CountableProduct createFirstCountableProduct() {
-        return new CountableProduct(
-                new Product("First", new BigDecimal("4.2")), 20);
-    }
-
-    private CountableProduct createSecondCountableProduct() {
-        return new CountableProduct(
-                new Product("Second", new BigDecimal("6.35")), 10);
-
-    }
-
-    private ProductInPromotion createFirstProductInPromotion() {
-        return new ProductInPromotion(
-                new Product("First", new BigDecimal("4.2")), 20, new BigDecimal("0.5"));
-    }
-
-    private ProductInPromotion createSecondProductInPromotion() {
-        return new ProductInPromotion(
-                new Product("Second", new BigDecimal("6.35")), 10, new BigDecimal("0.1"));
-    }
-
-    private ProductInPromotion createBetterPromotion() {
-        return new ProductInPromotion(
-                new Product("First", new BigDecimal("4.2")), 20, new BigDecimal("0.8"));
     }
 }

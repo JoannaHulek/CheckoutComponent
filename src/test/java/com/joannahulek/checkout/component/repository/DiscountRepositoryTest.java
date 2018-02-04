@@ -1,7 +1,7 @@
 package com.joannahulek.checkout.component.repository;
 
+import com.joannahulek.checkout.component.ProductPrototypes;
 import com.joannahulek.checkout.component.model.Discount;
-import com.joannahulek.checkout.component.model.Product;
 import com.joannahulek.checkout.component.model.ProductInPromotion;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +25,8 @@ public class DiscountRepositoryTest {
 
     private List<ProductInPromotion> createSampleDiscount() {
         List<ProductInPromotion> sampleDiscount = new ArrayList<>();
-        sampleDiscount.add(new ProductInPromotion(
-                new Product("Tomato", new BigDecimal("4.2")),
-                20, new BigDecimal("0.5")));
+        sampleDiscount.add(ProductPrototypes.createProductInPromotion(
+                "Tomato", new BigDecimal("4.2"), 20, new BigDecimal("0.5")));
         return sampleDiscount;
     }
 

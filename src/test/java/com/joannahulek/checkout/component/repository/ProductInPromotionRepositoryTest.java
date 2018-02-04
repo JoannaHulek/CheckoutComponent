@@ -1,6 +1,6 @@
 package com.joannahulek.checkout.component.repository;
 
-import com.joannahulek.checkout.component.model.Product;
+import com.joannahulek.checkout.component.ProductPrototypes;
 import com.joannahulek.checkout.component.model.ProductInPromotion;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,14 +22,9 @@ public class ProductInPromotionRepositoryTest {
 
     @Test
     public void saveProductInPromotion() {
-        ProductInPromotion productInPromotion = createSampleProductInPromotion();
+        ProductInPromotion productInPromotion = ProductPrototypes.createProductInPromotion(
+                "Tomato", new BigDecimal("4.2"), 20, new BigDecimal("0.5"));
         productInPromotionRepository.saveProductInPromotion(productInPromotion);
         Mockito.verify(entityManager).merge(productInPromotion);
-    }
-
-    private ProductInPromotion createSampleProductInPromotion() {
-        return new ProductInPromotion(
-                new Product("Tomato", new BigDecimal("4.2")),
-                20, new BigDecimal("0.5"));
     }
 }

@@ -1,5 +1,6 @@
 package com.joannahulek.checkout.component.model;
 
+import com.joannahulek.checkout.component.ProductPrototypes;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,21 +8,21 @@ import java.math.BigDecimal;
 
 public class CountableProductTest {
 
-    private CountableProduct genetareSampleCountableProduct() {
-        return new CountableProduct(new Product("Banana", new BigDecimal("3.2")), 10);
-    }
-
     @Test
     public void equals() {
-        CountableProduct product1 = genetareSampleCountableProduct();
-        CountableProduct product2 = genetareSampleCountableProduct();
+        CountableProduct product1 = ProductPrototypes.createCountableProduct(
+                "Banana", new BigDecimal("3.2"), 10);
+        CountableProduct product2 = ProductPrototypes.createCountableProduct(
+                "Banana", new BigDecimal("3.2"), 10);
         Assert.assertTrue(product1.equals(product2));
     }
 
     @Test
     public void compareToProductInPromotion() {
-        CountableProduct countableProduct = genetareSampleCountableProduct();
-        ProductInPromotion productInPromotion = new ProductInPromotion(new Product("Banana", new BigDecimal("3.2")), 10, new BigDecimal("0.05"));
+        CountableProduct countableProduct = ProductPrototypes.createCountableProduct(
+                "Banana", new BigDecimal("3.2"), 10);
+        ProductInPromotion productInPromotion = ProductPrototypes.createProductInPromotion(
+                "Banana", new BigDecimal("3.2"), 10, new BigDecimal("0.05"));
         Assert.assertTrue(countableProduct.compareToProductInPromotion(productInPromotion));
     }
 }

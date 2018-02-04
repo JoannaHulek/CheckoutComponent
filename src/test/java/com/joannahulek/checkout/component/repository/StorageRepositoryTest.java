@@ -16,13 +16,15 @@ import java.math.BigDecimal;
 public class StorageRepositoryTest {
 
     @InjectMocks
+    private
     StoreRepository storeRepository;
     @Mock
     private EntityManager entityManager;
 
     @Test
     public void saveStorage() {
-        StorageCountableProduct storageCountableProduct = new StorageCountableProduct(5, new Product("Milk", new BigDecimal("2.3")));
+        StorageCountableProduct storageCountableProduct = new StorageCountableProduct(
+                5, new Product("Milk", new BigDecimal("2.3")));
         storeRepository.saveStorage(storageCountableProduct);
         Mockito.verify(entityManager).merge(storageCountableProduct);
     }

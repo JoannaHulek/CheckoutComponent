@@ -35,16 +35,24 @@ public class Basket {
 
     public Summary closeBasket() {
         active = false;
-        BigDecimal totalPrice = getProducts().stream()
-                .map(countableProduct -> countableProduct.getPrice()
-                        .multiply(countableProduct.getDiscountMultiplier())
-                        .multiply(BigDecimal.valueOf(countableProduct.count())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        int numberOfItems = getProducts().stream()
-                .map(CountableProduct::count)
-                .reduce(0, (integer, integer2) -> integer + integer2);
+        BigDecimal totalPrice = calculateTotalPrice();
+        int numberOfItems = calculateNumberOItems();
 
         return new Summary(totalPrice, numberOfItems);
+    }
+
+    private int calculateNumberOItems() {
+        return getProducts().stream()
+                .map(CountableProduct::count)
+                .reduce(0, (integer, integer2) -> integer + integer2);
+    }
+
+    private BigDecimal calculateTotalPrice() {
+        return getProducts().stream()
+                .map(countableProduct -> countableProduct.getPrice()
+                        .multiply(BigDecimal.ONE.subtract(countableProduct.getDiscountMultiplier()))
+                        .multiply(BigDecimal.valueOf(countableProduct.count())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public String getId() {
