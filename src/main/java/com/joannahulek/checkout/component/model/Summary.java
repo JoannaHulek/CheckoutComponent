@@ -10,7 +10,7 @@ public class Summary {
     public Summary() {
     }
 
-    Summary(BigDecimal totalPrice, int numberOfItems) {
+    public Summary(BigDecimal totalPrice, int numberOfItems) {
         this.totalPrice = totalPrice;
         this.numberOfItems = numberOfItems;
     }

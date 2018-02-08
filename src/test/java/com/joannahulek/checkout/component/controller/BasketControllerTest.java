@@ -19,6 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 public class BasketControllerTest {
@@ -34,6 +35,7 @@ public class BasketControllerTest {
         productRepository = mock(ProductRepository.class);
         discountCalculator = mock(DiscountCalculator.class);
         basketController = new BasketController(basketRepository, productRepository, discountCalculator);
+
     }
 
     @Test
@@ -44,10 +46,16 @@ public class BasketControllerTest {
     }
 
     @Test
-    public void closeBasket() {
-        Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(Collections.emptyList()));
+    public void closeBasketWithProduct() {
+        //given
+        Basket existingBasket = new Basket(Collections.singletonList(ProductPrototypes.createCountableProduct(
+                "Apple", new BigDecimal("2.9"), 1)));
         String existingBasketID = "123";
+        when(discountCalculator.calculateDiscount(existingBasketID)).thenReturn(existingBasket);
+        when(basketRepository.getBasket(existingBasketID)).thenReturn(existingBasket);
+        //when
         Summary basketSummary = basketController.closeBasket(existingBasketID);
+        //then
         assertNotNull(basketSummary);
     }
 
@@ -59,9 +67,9 @@ public class BasketControllerTest {
         productsList.add(ProductPrototypes.createCountableProduct(
                 "Banana", new BigDecimal("3.2"), 2));
         String existingID = "11";
-        Mockito.when(basketRepository.getBasket(eq(existingID))).thenReturn(new Basket(productsList));
+        when(discountCalculator.calculateDiscount(existingID)).thenReturn(new Basket(productsList));
         BigDecimal actualPrice = basketController.closeBasket(existingID).getTotalPrice();
-        Assert.assertEquals(new BigDecimal("15.1"), actualPrice);
+        Assertions.assertThat(actualPrice).isEqualByComparingTo("15.1");
     }
 
     @Test
@@ -72,7 +80,7 @@ public class BasketControllerTest {
         product.setDiscountMultiplier(new BigDecimal("0.2"));
         productsList.add(product);
         String existingID = "145";
-        Mockito.when(discountCalculator.calculateDiscount(existingID)).thenReturn(new Basket(productsList));
+        when(discountCalculator.calculateDiscount(existingID)).thenReturn(new Basket(productsList));
         BigDecimal actualPrice = basketController.closeBasket(existingID).getTotalPrice();
         Assertions.assertThat(actualPrice).isEqualByComparingTo("11.6");
     }
@@ -84,16 +92,16 @@ public class BasketControllerTest {
                 "Apple", new BigDecimal("2.8"), 5));
         productsList.add(ProductPrototypes.createCountableProduct(
                 "Banana", new BigDecimal("3.4"), 1));
-        Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(new Basket(productsList));
+        when(discountCalculator.calculateDiscount(eq("123"))).thenReturn(new Basket(productsList));
         int actualAmount = basketController.closeBasket("123").getNumberOfItems();
-        Assert.assertEquals(6, actualAmount);
+        Assertions.assertThat(actualAmount).isEqualTo(6);
     }
 
     @Test
     public void addToBasket() {
-        Mockito.when(basketRepository.getBasket(eq("123")))
+        when(basketRepository.getBasket(eq("123")))
                 .thenReturn(new Basket(new ArrayList<>()));
-        Mockito.when(productRepository.findProduct("Orange"))
+        when(productRepository.findProduct("Orange"))
                 .thenReturn(new Product("Orange", new BigDecimal("3.8")));
         String basketId = "123";
         CountableItem item = new CountableItem("Orange", 1);
@@ -106,7 +114,7 @@ public class BasketControllerTest {
     @Test
     public void getBasket() {
         Basket expectedBasket = new Basket();
-        Mockito.when(basketRepository.getBasket(eq("123"))).thenReturn(expectedBasket);
+        when(basketRepository.getBasket(eq("123"))).thenReturn(expectedBasket);
         Basket actualBasket = basketController.getBasket("123");
         Mockito.verify(basketRepository).getBasket("123");
         Assert.assertEquals(expectedBasket, actualBasket);

@@ -24,7 +24,7 @@ public class CountableProduct implements Countable {
     public CountableProduct(Product product, int amount) {
         this.product = product;
         this.amount = amount;
-        this.discountMultiplier = BigDecimal.ONE;
+        this.discountMultiplier = BigDecimal.ZERO;
     }
 
     @Override
