@@ -41,11 +41,6 @@ public class ProductInPromotion {
         return discountValue.min(BigDecimal.ONE).max(BigDecimal.ZERO);
     }
 
-    public Boolean compareToCountableProduct(CountableProduct countableProduct) {
-        return this.getProduct().equals(countableProduct.getProduct())
-                && this.getAmount() <= countableProduct.getAmount();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
