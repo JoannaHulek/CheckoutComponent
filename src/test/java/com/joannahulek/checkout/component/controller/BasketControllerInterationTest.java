@@ -40,7 +40,7 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
     public void shouldAddToBasket() {
         Basket basket = postForNewBasket();
         String id = basket.getId();
-        CountableProduct product = ProductPrototypes.createCountableProduct(
+        CountableProduct countableProduct = ProductPrototypes.createCountableProduct(
                 "Milk", new BigDecimal("2.3"), 1);
         CountableItem item = new CountableItem("Milk", 1);
         Basket actualBasket = postForExistingBasketWithItem(id, item);
@@ -48,10 +48,19 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
         List<CountableProduct> actualDbProducts = actualDbBasket.getProducts();
         List<CountableProduct> actualProducts = actualBasket.getProducts();
         List<CountableProduct> expectedProducts = new ArrayList<>();
-        expectedProducts.add(product);
+        expectedProducts.add(countableProduct);
 
         Assert.assertEquals(expectedProducts, actualProducts);
         Assert.assertEquals(expectedProducts, actualDbProducts);
+    }
+
+    @Test(expected = Exception.class)
+    @Transactional
+    public void shouldCheckStorageAmount() {
+        Basket basket = postForNewBasket();
+        String id = basket.getId();
+        CountableItem item = new CountableItem("Apple", 100);
+        Basket actualBasket = postForExistingBasketWithItem(id, item);
     }
 
     @Test

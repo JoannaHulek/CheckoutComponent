@@ -112,6 +112,11 @@ public class BasketControllerTest {
     }
 
     @Test
+    public void addToBasketWhenStorageAmountIsLess() {
+
+    }
+
+    @Test
     public void getBasket() {
         Basket expectedBasket = new Basket();
         when(basketRepository.getBasket(eq("123"))).thenReturn(expectedBasket);

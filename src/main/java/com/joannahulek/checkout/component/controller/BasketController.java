@@ -50,6 +50,8 @@ public class BasketController {
                               @RequestBody CountableItem item) {
         String productName = item.getName();
         int amount = item.count();
+
+
         Product product = productRepository.findProduct(productName);
         CountableProduct countableProduct = new CountableProduct(product, amount);
         Basket actualBasket = basketRepository.getBasket(id);

@@ -9,7 +9,7 @@ public class StorageCountableProduct {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private int amount;
-    @ManyToOne
+    @OneToOne
     private Product product;
 
     public StorageCountableProduct() {
