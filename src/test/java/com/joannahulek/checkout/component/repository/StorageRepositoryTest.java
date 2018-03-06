@@ -37,6 +37,7 @@ public class StorageRepositoryTest {
         Mockito.verify(entityManager).merge(storageCountableProduct);
     }
 
+
     @Test
     public void getProductAmount() {
         //given

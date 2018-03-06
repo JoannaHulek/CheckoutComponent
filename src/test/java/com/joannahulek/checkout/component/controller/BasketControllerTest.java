@@ -4,6 +4,7 @@ import com.joannahulek.checkout.component.ProductPrototypes;
 import com.joannahulek.checkout.component.model.*;
 import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.ProductRepository;
+import com.joannahulek.checkout.component.repository.StoreRepository;
 import com.joannahulek.checkout.component.service.DiscountCalculator;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,6 +29,7 @@ public class BasketControllerTest {
     private BasketRepository basketRepository;
     private ProductRepository productRepository;
     private DiscountCalculator discountCalculator;
+    private StoreRepository storeRepository;
     private BasketController basketController;
 
     @Before
@@ -34,8 +37,10 @@ public class BasketControllerTest {
         basketRepository = mock(BasketRepository.class);
         productRepository = mock(ProductRepository.class);
         discountCalculator = mock(DiscountCalculator.class);
-        basketController = new BasketController(basketRepository, productRepository, discountCalculator);
-
+        storeRepository = mock(StoreRepository.class);
+        basketController = new BasketController(basketRepository, productRepository,
+                discountCalculator, storeRepository);
+        when(storeRepository.getProductAmount(any())).thenReturn(Integer.MAX_VALUE);
     }
 
     @Test
@@ -111,9 +116,17 @@ public class BasketControllerTest {
         Assert.assertEquals(new Basket(Collections.singletonList(product)), actualBasket);
     }
 
-    @Test
-    public void addToBasketWhenStorageAmountIsLess() {
+    @Test(expected = IllegalArgumentException.class)
+    public void dontAddToBasketWhenStorageAmountIsLess() {
+        Product product = ProductPrototypes.createProduct("Milk", new BigDecimal(3.5));
+        when(storeRepository.getProductAmount(product)).thenReturn(3);
+        when(productRepository.findProduct("Milk")).thenReturn(product);
 
+        String basketId = "13";
+        CountableItem item = new CountableItem("Milk", 5);
+        CountableProduct countableProduct = ProductPrototypes.createCountableProduct(
+                "Milk", new BigDecimal("3.5"), 5);
+        Basket actualBasket = basketController.addToBasket(basketId, item);
     }
 
     @Test

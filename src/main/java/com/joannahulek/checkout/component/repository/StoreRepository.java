@@ -26,6 +26,7 @@ public class StoreRepository {
     @Transactional
     public void saveStorage(StorageCountableProduct storageCountableProduct) {
         entityManager.merge(storageCountableProduct);
+
     }
 
     public List<StorageCountableProduct> getStorage() {
