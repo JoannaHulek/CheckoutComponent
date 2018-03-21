@@ -34,7 +34,7 @@ public class StoreRepository {
         return entityManager.createQuery(query.select(query.from(StorageCountableProduct.class))).getResultList();
     }
 
-    public Integer getProductAmount(Product product) {
+    public StorageCountableProduct getStorageProduct(Product product) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<StorageCountableProduct> criteriaQuery = criteriaBuilder.createQuery(StorageCountableProduct.class);
         Root<StorageCountableProduct> root = criteriaQuery.from(StorageCountableProduct.class);
@@ -42,6 +42,6 @@ public class StoreRepository {
         criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("product"), product));
         TypedQuery<StorageCountableProduct> typedQuery = entityManager.createQuery(criteriaQuery);
 
-        return typedQuery.getSingleResult().getAmount();
+        return typedQuery.getSingleResult();
     }
 }

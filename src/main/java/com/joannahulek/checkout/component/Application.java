@@ -45,7 +45,7 @@ public class Application {
 
             storeRepository.saveStorage(new StorageCountableProduct(5, productRepository.findProduct("Milk")));
             storeRepository.saveStorage(new StorageCountableProduct(3, productRepository.findProduct("Apple")));
-            storeRepository.saveStorage(new StorageCountableProduct(8, productRepository.findProduct("Banana")));
+            storeRepository.saveStorage(new StorageCountableProduct(38, productRepository.findProduct("Banana")));
             storeRepository.saveStorage(new StorageCountableProduct(2, productRepository.findProduct("Potato")));
             storeRepository.saveStorage(new StorageCountableProduct(7, productRepository.findProduct("Tomato")));
 

@@ -47,8 +47,8 @@ public class StorageRepositoryTest {
         given(sampleTypedQuery.getSingleResult()).willReturn(storageCountableProduct);
         given(entityManager.createQuery(any(CriteriaQuery.class))).willReturn(sampleTypedQuery);
         //when
-        Integer productAmount = storeRepository.getProductAmount(product);
+        StorageCountableProduct storageProduct = storeRepository.getStorageProduct(product);
         //then
-        Assertions.assertThat(productAmount).isEqualTo(5);
+        Assertions.assertThat(storageProduct.getAmount()).isEqualTo(5);
     }
 }

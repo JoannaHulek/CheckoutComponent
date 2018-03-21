@@ -5,17 +5,20 @@ import com.joannahulek.checkout.component.model.Basket;
 import com.joannahulek.checkout.component.model.CountableItem;
 import com.joannahulek.checkout.component.model.CountableProduct;
 import com.joannahulek.checkout.component.model.Summary;
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 public class BasketControllerInterationTest extends IntegrationTestBase {
@@ -54,13 +57,14 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
         Assert.assertEquals(expectedProducts, actualDbProducts);
     }
 
-    @Test(expected = Exception.class)
     @Transactional
+    @Test
     public void shouldCheckStorageAmount() {
         Basket basket = postForNewBasket();
         String id = basket.getId();
         CountableItem item = new CountableItem("Apple", 100);
-        Basket actualBasket = postForExistingBasketWithItem(id, item);
+        ResponseEntity<Basket> entity = template.postForEntity(base + "/basket/" + id, item, Basket.class);
+        assertThat(entity.getStatusCode()).isEqualByComparingTo(HttpStatus.EXPECTATION_FAILED);
     }
 
     @Test
@@ -73,7 +77,7 @@ public class BasketControllerInterationTest extends IntegrationTestBase {
 
         Summary summary = template.exchange(base + "/basket/" + id, HttpMethod.DELETE, null, Summary.class).getBody();
 
-        Assertions.assertThat(summary.getTotalPrice()).isEqualByComparingTo("64");
+        assertThat(summary.getTotalPrice()).isEqualByComparingTo("64");
     }
 
     private Basket postForNewBasket() {

@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
@@ -18,8 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -40,7 +40,15 @@ public class BasketControllerTest {
         storeRepository = mock(StoreRepository.class);
         basketController = new BasketController(basketRepository, productRepository,
                 discountCalculator, storeRepository);
-        when(storeRepository.getProductAmount(any())).thenReturn(Integer.MAX_VALUE);
+        whenGetStorageRepositoryThenReturnProductWithAmount(Integer.MAX_VALUE);
+        when(basketRepository.getBasket(anyString())).thenReturn(new Basket(new ArrayList<>()));
+    }
+
+    private void whenGetStorageRepositoryThenReturnProductWithAmount(Integer amount) {
+        when(storeRepository.getStorageProduct(any()))
+                .then(invocation ->
+                        new StorageCountableProduct(amount, invocation.getArgumentAt(0, Product.class))
+                );
     }
 
     @Test
@@ -119,9 +127,8 @@ public class BasketControllerTest {
     @Test(expected = IllegalArgumentException.class)
     public void dontAddToBasketWhenStorageAmountIsLess() {
         Product product = ProductPrototypes.createProduct("Milk", new BigDecimal(3.5));
-        when(storeRepository.getProductAmount(product)).thenReturn(3);
         when(productRepository.findProduct("Milk")).thenReturn(product);
-
+        whenGetStorageRepositoryThenReturnProductWithAmount(3);
         String basketId = "13";
         CountableItem item = new CountableItem("Milk", 5);
         CountableProduct countableProduct = ProductPrototypes.createCountableProduct(
@@ -136,5 +143,18 @@ public class BasketControllerTest {
         Basket actualBasket = basketController.getBasket("123");
         Mockito.verify(basketRepository).getBasket("123");
         Assert.assertEquals(expectedBasket, actualBasket);
+    }
+
+    @Test
+    public void shouldUpdateStorageAmount() {
+        Product product = ProductPrototypes.createProduct("Chocolate", new BigDecimal("2.99"));
+        when(productRepository.findProduct("Chocolate")).thenReturn(product);
+        whenGetStorageRepositoryThenReturnProductWithAmount(20);
+        CountableItem item = new CountableItem("Chocolate", 5);
+        String basketId = "147";
+        basketController.addToBasket(basketId, item);
+        ArgumentCaptor<StorageCountableProduct> captor = ArgumentCaptor.forClass(StorageCountableProduct.class);
+        Mockito.verify(storeRepository).saveStorage(captor.capture());
+        Assertions.assertThat(captor.getValue().getAmount()).isEqualTo(15);
     }
 }

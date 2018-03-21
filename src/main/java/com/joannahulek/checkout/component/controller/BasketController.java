@@ -5,6 +5,8 @@ import com.joannahulek.checkout.component.repository.BasketRepository;
 import com.joannahulek.checkout.component.repository.ProductRepository;
 import com.joannahulek.checkout.component.repository.StoreRepository;
 import com.joannahulek.checkout.component.service.DiscountCalculator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -57,9 +59,9 @@ public class BasketController {
 
         Product product = productRepository.findProduct(productName);
 
-        int storeAmount = storeRepository.getProductAmount(product);
+        StorageCountableProduct storageProduct = storeRepository.getStorageProduct(product);
 
-        if (amount > storeAmount) {
+        if (amount > storageProduct.getAmount()) {
             throw new IllegalArgumentException("Not enough product in store");
         }
 
@@ -68,6 +70,13 @@ public class BasketController {
         actualBasket.addProduct(countableProduct);
         productRepository.saveCountableProduct(countableProduct);
         basketRepository.saveBasket(actualBasket);
+        storageProduct.setAmount(storageProduct.getAmount() - amount);
+        storeRepository.saveStorage(storageProduct);
         return actualBasket;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Void> illegalArgumentExceptionHandler() {
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
     }
 }

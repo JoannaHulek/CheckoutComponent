@@ -28,6 +28,18 @@ public class StorageCountableProduct {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "StorageCountableProduct{" +
+                "amount=" + amount +
+                ", product=" + product +
+                '}';
+    }
+
     public Product getProduct() {
         return product;
     }
